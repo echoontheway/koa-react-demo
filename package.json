@@ -1,0 +1,30 @@
+{
+  "name": "koa-react-jest-demo",
+  "version": "1.0.0",
+  "description": "test koa,react via jest",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "jest"
+  },
+  "keywords": [
+    "koa",
+    "jest"
+  ],
+  "author": "echo wang",
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.5.1",
+    "koa-body": "^2.5.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^4.0.2"
+  },
+  "devDependencies": {
+    "jest": "^22.4.3",
+    "supertest": "^3.0.0"
+  },
+  "jest": {
+    "verbose": true,
+    "testMatch":["<rootDir>/test/*.test.js"]
+  }
+}
