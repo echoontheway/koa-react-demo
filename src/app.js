@@ -47,7 +47,7 @@ const login = ctx =>{
     res.data = {name:telMap[reqData.tel]}
   }else{
     res.status = 1
-    res.msg = 'sorry,login failure'
+    res.msg = 'login failure,check your Tel'
   }
   ctx.body = res
 }

@@ -1,36 +1,44 @@
 import React,{Component} from "react";
-import ReactDOM from "react-dom";
 import Login from './Login';
-import Welcome from './Welcome';
+import Main from './main';
+import { connect } from 'react-redux';
 
 class App extends Component{
   constructor(props){
     super(props);
     this.state = {
-      welcome:false,
-      login:true,
-      userInfo:{}
+      login:false
     }
-    this.getUserInfo = this.getUserInfo.bind(this);
   }
-  getUserInfo(userInfo){
-    this.setState((prevState)=>({
-      login:false,
-      welcome:true,
-      userInfo
-    }))
+
+  componentWillReceiveProps(nextProps){
+    const {userInfo} = nextProps
+    if(userInfo&&userInfo.status===0){
+      this.setState((prevState)=>({
+        login:true
+      }))
+    }
   }
+
   render(){
-    const {userInfo,login,welcome} = this.state;
+    const {login} = this.state;
+    const {userInfo} = this.props;
     return (
       <div>
-          <h1>here~koa-react-jest</h1>
-          {login&&<Login getUserInfo={this.getUserInfo}/>}
-          {welcome&&<Welcome {...userInfo} />}
+          {login?<Main userInfo={userInfo} />:<Login />}    
       </div>
     );
   }
 };
 
-export default App;
-ReactDOM.render(<App />, document.getElementById("app"));
+
+const mapStateToProps = state => ({
+  userInfo:state.userInfo
+})
+
+export default connect(
+  mapStateToProps
+)(App)
+
+
+

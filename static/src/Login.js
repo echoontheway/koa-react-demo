@@ -1,7 +1,9 @@
 import React,{Component} from "react";
 import ReactDOM from "react-dom";
+import { connect } from 'react-redux';
+import { fetchPosts } from './actions';
 
-export default class Login extends Component{
+class Login extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -11,39 +13,40 @@ export default class Login extends Component{
     }
 
     handleSubmit(e){
-
-        const url = 'api/login';
-        fetch(url, {
-            method: 'POST', // or 'PUT'
-            body: JSON.stringify({tel:this.input.value}), // data can be `string` or {object}!
-            headers: new Headers({
-              'Content-Type': 'application/json'
-            })
-          }).then(res => res.json())
-          .catch(error => console.error('Error:', error))
-          .then(res => {
-            if(res.status===0){
-                this.props.getUserInfo(res.data);
-            }else{
-                this.setState((prevState)=>({errMsg:res.msg}))
-            }
-          });
         e.preventDefault();
+        this.props.fetchLogin({
+            tel:this.input.value
+        })
     }
     
     render(){
         const {errMsg} = this.state;
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit} className="login box">
                 <label>
-                    Tel:<input type="text"  ref={(input) => this.input = input} required />
+                    <input type="text" placeholder="登陆手机号" ref={(input) => this.input = input} required />
                 </label>
-                <input type="submit" value="Submit" />
                 {errMsg&&<div className="error-msg">{errMsg}</div>}
+                <br />
+                <input type="submit" value="登   录" />
             </form>
         )
     }
-
-
 }
+
+
+const mapDispatchToProps = dispatch => ({
+    fetchLogin: req => dispatch(fetchPosts(req))
+})
+
+const mapStateToProps = state => ({
+    userInfo:state.userInfo
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Login)
+
+
 

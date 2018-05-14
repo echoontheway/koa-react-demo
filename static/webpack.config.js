@@ -21,7 +21,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"]
+        use: [MiniCssExtractPlugin.loader, "css-loader","sass-loader"]
       }
     ]
   },
@@ -39,6 +39,5 @@ module.exports = {
     proxy: {
       "/api": "http://localhost:3000"
     }
-  },
-  devtool:"eval-source-map"
+  }
 };

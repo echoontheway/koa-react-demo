@@ -1,6 +1,46 @@
 body {
-    line-height: 2;
+    line-height: 2;    
 }
 .error-msg{
     color:#ff0000;
 }
+
+.login.box{
+    border-radius: 10px;
+    position: absolute;
+    width:340px;
+    height: 120px;
+    top:50%;
+    left:50%;
+    margin-left:-170px;
+    margin-top:-60px;
+}
+
+.login{
+    input{
+        outline:none;
+        font-family: "Microsoft YaHei",Tahoma,Verdana,Arial,sans-serif;
+        display: inline-block;
+        width:300px;
+        line-height:28px;
+        padding:5px 5px 5px 13px;
+        margin:8px 20px;
+    }
+    input[type=text]{
+        font-size:14px;  
+        border:1px solid #ccc;
+    }
+    input[type=submit]{
+        background-color: #FF9A14;
+        text-align:center;
+        border-radius: 4px;
+        cursor: pointer;
+        color:white;
+        font-size:16px;
+        border:0;
+    }
+    input[type=submit]:hover{
+        background-color: #CC7B10;
+    }
+}
+
