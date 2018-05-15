@@ -1,9 +1,19 @@
 # koa-react-demo
-
+koa+react搭建一个比较完整的web前后端的例子  
 ## node
 框架：koa  
 功能：提供接口，伺服静态文件
+启动：npm start      
 
 ## front-end
 框架及重要模块：react + react-redux  
-功能：登录页、主页
+功能：登录页、主页  
+打包：webpack4  
+      1.代理接口至koa应用  
+      2.start模式下提供HMR等  
+      3.build模式下进行代码分割及合并、编译、压缩等优化       
+启动：npm start
+
+## 测试
+框架及重要模块:jest + supertest  
+启动：npm test  
