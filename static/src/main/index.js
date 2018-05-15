@@ -1,5 +1,4 @@
 import React,{Component} from "react";
-import ReactDOM from "react-dom";
 import Header from './Header';
 
 export default class Main extends Component{
@@ -9,7 +8,7 @@ export default class Main extends Component{
     render(){
         return (
             <div>
-                <Header></Header>
+                <Header userInfo={this.props.userInfo}></Header>
                 <div className="container">
                     <aside>aside</aside> 
                     <main>main</main>

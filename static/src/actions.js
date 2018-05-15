@@ -7,10 +7,9 @@ function requestPosts(req) {
 }
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
-function receivePosts(req, json) {
+function receivePosts(json) {
   return {
     type: RECEIVE_POSTS,
-    req,
     userInfo: json
   }
 }
@@ -58,7 +57,7 @@ export function fetchPosts(req) {
         // 可以多次 dispatch！
         // 这里，使用 API 请求结果来更新应用的 state。
 
-        dispatch(receivePosts(req, json))
+        dispatch(receivePosts(json))
       )
   }
 }

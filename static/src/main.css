@@ -1,5 +1,6 @@
 body {
-    line-height: 2;    
+    line-height: 2;
+    font-family: "Microsoft YaHei",Tahoma,Verdana,Arial,sans-serif;   
 }
 .error-msg{
     color:#ff0000;
@@ -19,7 +20,6 @@ body {
 .login{
     input{
         outline:none;
-        font-family: "Microsoft YaHei",Tahoma,Verdana,Arial,sans-serif;
         display: inline-block;
         width:300px;
         line-height:28px;
@@ -44,3 +44,38 @@ body {
     }
 }
 
+header{
+    width:100%;
+    background-color: #2577e3;
+    font-size:15px;
+    line-height: 40px;
+    height:40px;
+    color:white;
+    nav{
+        list-style: none;
+        display:flex;
+        justify-content: space-between;
+        li:hover{
+            background-color: #0a56bb;
+        }
+        li{
+            transition: background-color 1s ease;
+            cursor: pointer;
+        }
+    }
+}
+
+.container{
+    display: flex;
+    aside{
+        width:220px;
+    }
+    main{
+        flex:1;
+    }
+}
+
+header nav,.container,footer{
+    width:1180px;
+    margin: 0 auto;
+}

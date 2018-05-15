@@ -25,16 +25,19 @@ class App extends Component{
     const {userInfo} = this.props;
     return (
       <div>
-          {login?<Main userInfo={userInfo} />:<Login />}    
+          {login?<Main userInfo={userInfo.data} />:<Login />}    
       </div>
     );
   }
 };
 
 
-const mapStateToProps = state => ({
-  userInfo:state.userInfo
-})
+const mapStateToProps = state => {
+  const {userInfo} = state.postsByLogin
+  return {
+      userInfo
+  }
+}
 
 export default connect(
   mapStateToProps

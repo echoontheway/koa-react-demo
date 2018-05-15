@@ -1,5 +1,4 @@
 import React,{Component} from "react";
-import ReactDOM from "react-dom";
 import { connect } from 'react-redux';
 import { fetchPosts } from './actions';
 
@@ -12,6 +11,15 @@ class Login extends Component{
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentWillReceiveProps(nextProps){
+        const {userInfo} = nextProps;
+        if(userInfo&&userInfo.status !==0 ){
+            this.setState((prevState)=>{
+                errMsg:userInfo.msg                
+            })
+        }
+    }
+
     handleSubmit(e){
         e.preventDefault();
         this.props.fetchLogin({
@@ -21,6 +29,7 @@ class Login extends Component{
     
     render(){
         const {errMsg} = this.state;
+        const {isFetching} = this.props;
         return (
             <form onSubmit={this.handleSubmit} className="login box">
                 <label>
@@ -28,7 +37,7 @@ class Login extends Component{
                 </label>
                 {errMsg&&<div className="error-msg">{errMsg}</div>}
                 <br />
-                <input type="submit" value="登   录" />
+                <input type="submit" value={isFetching?'登   录   中......':'登   录'} />
             </form>
         )
     }
@@ -39,9 +48,14 @@ const mapDispatchToProps = dispatch => ({
     fetchLogin: req => dispatch(fetchPosts(req))
 })
 
-const mapStateToProps = state => ({
-    userInfo:state.userInfo
-})
+const mapStateToProps = state => {
+    const {userInfo,isFetching} = state.postsByLogin
+    return {
+        isFetching,
+        userInfo
+    }
+}
+
 
 export default connect(
     mapStateToProps,

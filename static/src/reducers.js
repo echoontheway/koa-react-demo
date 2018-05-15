@@ -4,7 +4,7 @@ import {
   RECEIVE_POSTS
 } from './actions'
 
-function postsBySubreddit(state = {}, action) {
+function postsByLogin(state = {}, action) {
   switch (action.type) {
     case RECEIVE_POSTS:
     return Object.assign({}, state, {
@@ -21,7 +21,7 @@ function postsBySubreddit(state = {}, action) {
 }
 
 const rootReducer = combineReducers({
-  postsBySubreddit
+  postsByLogin
 })
 
 export default rootReducer

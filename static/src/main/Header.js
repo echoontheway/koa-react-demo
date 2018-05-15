@@ -1,7 +1,6 @@
 import React,{Component} from "react";
-import ReactDOM from "react-dom";
 
-class Header extends Component{
+export default class Header extends Component{
     constructor(props){
         super(props);
     }
@@ -12,7 +11,7 @@ class Header extends Component{
                     <li>首页</li>
                     <li>酒店</li>
                     <li>机票</li>
-                    <li>{props.userInfo.name}</li>
+                    <li>welcome,{this.props.userInfo.name}</li>
                 </nav>
             </header>
         )
