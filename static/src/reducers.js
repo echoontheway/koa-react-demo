@@ -1,19 +1,20 @@
 import { combineReducers } from 'redux'
-import {
-  REQUEST_POSTS,
-  RECEIVE_POSTS
-} from './actions'
+import * as types from './actionTypes'
 
-function postsByLogin(state = {}, action) {
+function loginOrOut(state = {}, action) {
   switch (action.type) {
-    case RECEIVE_POSTS:
-    return Object.assign({}, state, {
-      isFetching: false,
-      userInfo:action.userInfo
-    })
-    case REQUEST_POSTS:
+    case types.REQUEST_LOGIN:
     return Object.assign({}, state, {
       isFetching: true
+    })
+    case types.RECEIVE_LOGIN:
+    return Object.assign({}, state, {
+      isFetching: false,
+      userInfo:action.res
+    })
+    case types.RECEIVE_LOGOUT:
+    return Object.assign({}, state, {
+      userInfo:action.res
     })
     default:
       return state
@@ -21,7 +22,7 @@ function postsByLogin(state = {}, action) {
 }
 
 const rootReducer = combineReducers({
-  postsByLogin
+  loginOrOut
 })
 
 export default rootReducer

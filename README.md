@@ -1,5 +1,6 @@
 # koa-react-demo
 koa+react搭建一个比较完整的web前后端的例子  
+1.登录&退出
 ## node
 框架：koa  
 功能：提供接口，伺服静态文件  

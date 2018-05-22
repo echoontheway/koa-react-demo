@@ -55,6 +55,12 @@ header {
     header nav li {
       transition: background-color 1s ease;
       cursor: pointer; }
+    header nav li:last-of-type {
+      background: #ff9913 url(//pic.c-ctrip.com/platform/online/home/un_header_footer20160610.png) no-repeat -59px -169px;
+      width: 128px;
+      padding: 0 5px 0 27px; }
+      header nav li:last-of-type .logout {
+        float: right; }
 
 .container {
   display: flex; }

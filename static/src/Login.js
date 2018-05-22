@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import { connect } from 'react-redux';
-import { fetchPosts } from './actions';
+import { login } from './actions';
 
 class Login extends Component{
     constructor(props){
@@ -33,7 +33,7 @@ class Login extends Component{
         return (
             <form onSubmit={this.handleSubmit} className="login box">
                 <label>
-                    <input type="text" placeholder="登陆手机号" ref={(input) => this.input = input} required />
+                    <input type="text" placeholder="登录手机号" ref={(input) => this.input = input} required />
                 </label>
                 {errMsg&&<div className="error-msg">{errMsg}</div>}
                 <br />
@@ -45,11 +45,11 @@ class Login extends Component{
 
 
 const mapDispatchToProps = dispatch => ({
-    fetchLogin: req => dispatch(fetchPosts(req))
+    fetchLogin: req => dispatch(login(req))
 })
 
 const mapStateToProps = state => {
-    const {userInfo,isFetching} = state.postsByLogin
+    const {userInfo,isFetching} = state.loginOrOut
     return {
         isFetching,
         userInfo

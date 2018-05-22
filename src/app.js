@@ -5,6 +5,7 @@ const path = require('path');
 const serve = require('koa-static');
 const koaBody = require('koa-body');
 const session = require('koa-session');
+const views = require('koa-views');
 
 const app = new Koa();
 const router = new Router();
@@ -14,7 +15,7 @@ const CONFIG = {
   /** (number || 'session') maxAge in ms (default is 1 days) */
   /** 'session' will result in a cookie that expires when session/browser is closed */
   /** Warning: If a session cookie is stolen, this cookie will never expire */
-  maxAge: 1200000,
+  maxAge: 20*60000,
   overwrite: true, /** (boolean) can overwrite or not (default true) */
   httpOnly: false, /** (boolean) httpOnly or not (default true) */
   signed: false, /** (boolean) signed or not (default true) */
@@ -22,44 +23,56 @@ const CONFIG = {
   renew: true, /** (boolean) renew session when session is nearly expired, so we can always keep user logged in. (default is false)*/
 };
 
-app.use(session(CONFIG, app));
-
-
-app.use(serve(path.join(__dirname,'../static/dist')));
+const telMap = {
+  "123":'echo',
+  "456":'summer'
+}
 
 const logger = async (ctx, next) => {
   console.log(`${Date.now()} ${ctx.method} ${ctx.url}`);
   await next();
 }
-app.use(logger);
-app.use(koaBody());
 
-const page =  async (ctx,next) => {
-  const n = Number(ctx.cookies.get('view') || 0) + 1;
-  ctx.type = 'html';
-  ctx.cookies.set('view', n,      {
-    maxAge: 10 * 60 * 1000, // cookie有效时长
-    expires: new Date('2018-05-16'),  // cookie失效时间
-    httpOnly: false,  // 是否只用于http请求中获取
-    overwrite: false  // 是否允许重写
+const page = async ctx =>{
+  console.log('page')
+  let tel,name
+  if(!ctx.session.isNew){
+     tel = ctx.session.id.split('_')[0];
+     name = telMap[tel];
+  }
+  //必须await
+  await ctx.render('index', {
+    userInfo:{
+      name,
+      tel
+    }
   });
-  ctx.response.body = n + ' views';
-};
+}
+
+const logout = ctx =>{
+  let res = {
+    status:0,
+    msg:'succeed',
+    data:null
+  }
+  ctx.session = null;
+  ctx.body = res;
+}
 
 const login = ctx =>{
   const reqData = ctx.request.body;
-  const telMap = {
-    "123":'echo',
-    "456":'summer'
-  }
   let res = {
     status:0,
     msg:'succeed',
     data:null
   }
   if(reqData.tel&&telMap[reqData.tel]){
-    res.data = {name:telMap[reqData.tel]};
-    let n = ctx.session.views || 0;
+    res.data = {
+      tel:reqData.tel,
+      name:telMap[reqData.tel]
+    };
+    let sid = `${reqData.tel}_${Date.now()}`;
+    ctx.session.id = sid;
   }else{
     res.status = 1
     res.msg = 'login failure,check your Tel'
@@ -67,9 +80,30 @@ const login = ctx =>{
   ctx.body = res
 }
 
-router.get('/', page)
-.post('/api/login',login)
+app.use(logger);
 
+app.use(serve(path.join(__dirname,'../'),{
+  gzip: true,
+  autogz: true
+}));
+
+app.use(koaBody());
+
+app.use(session(CONFIG, app));
+
+
+//优先走views,若views不存在，走静态文件伺服器serve
+app.use(
+  views(path.join(__dirname,'../views'), {
+    map: { html: 'dot' },
+    default: 'dot'
+  })
+)
+
+router
+.get('/',page)
+.post('/api/login',login)
+.post('/api/logout',logout)
 
 app.use(router.routes())
 .use(router.allowedMethods());
