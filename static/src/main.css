@@ -2,6 +2,7 @@ body {
     line-height: 2;
     font-family: "Microsoft YaHei",Tahoma,Verdana,Arial,sans-serif;   
 }
+
 .error-msg{
     color:#ff0000;
 }
@@ -73,12 +74,76 @@ header{
     }
 }
 
+
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background:#acccef;
+}
+
+
 .container{
+    padding-top: 8px;
     display: flex;
     aside{
+        border-radius: 8px;
         width:220px;
+        border:1px solid #acccef;
+        .head{
+            height: 68px;  
+            background:url(//livechat.ctrip.com/livechat/res/images/un_livechat.png) no-repeat 0 -403px, #e6f3fe;         
+        }
+        .name{
+            padding:0 0 0 70px;
+            background:url(//livechat.ctrip.com/livechat/res/images/cyy.png) no-repeat 54px 0;
+            color:#0a56bb;
+        }
+        .history{
+            border-bottom: 1px solid #acccef;
+            border-top: 1px solid #acccef;
+            height: 200px;
+            overflow: auto;
+            padding-left:calc(220px - 100%);
+            div{
+                display:flex;
+                align-items:center;
+                margin:4px 0;
+                :first-of-type{
+                    margin-right: 4px;
+                }
+            }
+        }
+        .right_msg{
+            flex-direction: row-reverse;
+        }
+        .avatar{
+            width: 30px;
+            height: 30px;
+        }
+        .msg{
+            border:1px solid #c2e1ff;
+            background: #f5faff;
+            border-radius: 3px;
+            padding: 0 4px;
+        }
+        .arrow{
+            border:8px solid transparent;
+            border-right-color: #c2e1ff;
+            border-left:none;
+            display: block;
+            position: absolute;   
+        }
+        .current{
+            height: 100px;
+        }
     }
     main{
+        margin-left:8px;
         flex:1;
     }
 }

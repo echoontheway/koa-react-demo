@@ -1,3 +1,5 @@
+import {telMap,chatTxt} from './constants'
+
 const Koa = require('koa');
 const fs = require('fs');
 const Router = require('koa-router');
@@ -6,7 +8,6 @@ const serve = require('koa-static');
 const koaBody = require('koa-body');
 const session = require('koa-session');
 const views = require('koa-views');
-
 const app = new Koa();
 const router = new Router();
 
@@ -23,18 +24,12 @@ const CONFIG = {
   renew: true, /** (boolean) renew session when session is nearly expired, so we can always keep user logged in. (default is false)*/
 };
 
-const telMap = {
-  "123":'echo',
-  "456":'summer'
-}
-
 const logger = async (ctx, next) => {
   console.log(`${Date.now()} ${ctx.method} ${ctx.url}`);
   await next();
 }
 
 const page = async ctx =>{
-  console.log('page')
   let tel,name
   if(!ctx.session.isNew){
      tel = ctx.session.id.split('_')[0];

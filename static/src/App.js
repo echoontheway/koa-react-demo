@@ -2,7 +2,7 @@ import React,{Component} from "react";
 import Login from './Login';
 import Main from './main';
 import { connect } from 'react-redux';
-import {b64DecodeUnicode,getcookie} from './utils';
+import {b64DecodeUnicode,getcookie} from '../../febe/utils';
 
 class App extends Component{
   constructor(props){
