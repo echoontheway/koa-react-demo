@@ -15,9 +15,9 @@ class Header extends Component{
         return (
             <header>
                 <nav>
-                    <li>首页</li>
-                    <li>酒店</li>
-                    <li>机票</li>
+                    <li>index</li>
+                    <li>tab1</li>
+                    <li>tab2</li>
                     <li>
                         <span>
                             {this.props.userInfo.name}

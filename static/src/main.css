@@ -3,6 +3,10 @@ body {
     font-family: "Microsoft YaHei",Tahoma,Verdana,Arial,sans-serif;   
 }
 
+/**取消默认样式****/
+input,button,select,textarea{outline:none}
+textarea{resize:none}
+
 .error-msg{
     color:#ff0000;
 }
@@ -92,7 +96,7 @@ header{
     display: flex;
     aside{
         border-radius: 8px;
-        width:220px;
+        width:380px;
         border:1px solid #acccef;
         .head{
             height: 68px;  
@@ -139,8 +143,7 @@ header{
             position: absolute;   
         }
         .current{
-            height: 100px;
-        }
+            height: 250px;        }
     }
     main{
         margin-left:8px;

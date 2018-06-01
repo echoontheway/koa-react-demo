@@ -1,6 +1,14 @@
+@charset "UTF-8";
 body {
   line-height: 2;
   font-family: "Microsoft YaHei",Tahoma,Verdana,Arial,sans-serif; }
+
+/**取消默认样式****/
+input, button, select, textarea {
+  outline: none; }
+
+textarea {
+  resize: none; }
 
 .error-msg {
   color: #ff0000; }
@@ -62,11 +70,61 @@ header {
       header nav li:last-of-type .logout {
         float: right; }
 
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+  width: 6px; }
+
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #acccef; }
+
 .container {
+  padding-top: 8px;
   display: flex; }
   .container aside {
-    width: 220px; }
+    border-radius: 8px;
+    width: 220px;
+    border: 1px solid #acccef; }
+    .container aside .head {
+      height: 68px;
+      background: url(//livechat.ctrip.com/livechat/res/images/un_livechat.png) no-repeat 0 -403px, #e6f3fe; }
+    .container aside .name {
+      padding: 0 0 0 70px;
+      background: url(//livechat.ctrip.com/livechat/res/images/cyy.png) no-repeat 54px 0;
+      color: #0a56bb; }
+    .container aside .history {
+      border-bottom: 1px solid #acccef;
+      border-top: 1px solid #acccef;
+      height: 200px;
+      overflow: auto;
+      padding-left: calc(220px - 100%); }
+      .container aside .history div {
+        display: flex;
+        align-items: center;
+        margin: 4px 0; }
+        .container aside .history div :first-of-type {
+          margin-right: 4px; }
+    .container aside .right_msg {
+      flex-direction: row-reverse; }
+    .container aside .avatar {
+      width: 30px;
+      height: 30px; }
+    .container aside .msg {
+      border: 1px solid #c2e1ff;
+      background: #f5faff;
+      border-radius: 3px;
+      padding: 0 4px; }
+    .container aside .arrow {
+      border: 8px solid transparent;
+      border-right-color: #c2e1ff;
+      border-left: none;
+      display: block;
+      position: absolute; }
+    .container aside .current {
+      height: 100px; }
   .container main {
+    margin-left: 8px;
     flex: 1; }
 
 header nav, .container, footer {
