@@ -92,6 +92,7 @@ header{
 
 
 .container{
+    font-family: "Microsoft YaHei",Tahoma,Verdana,Arial,sans-serif;
     padding-top: 8px;
     display: flex;
     aside{
@@ -130,10 +131,12 @@ header{
             height: 30px;
         }
         .msg{
-            border:1px solid #c2e1ff;
+            padding: 0 4px;
+        }
+        span.msg{
             background: #f5faff;
             border-radius: 3px;
-            padding: 0 4px;
+            border:1px solid #c2e1ff;
         }
         .arrow{
             border:8px solid transparent;
@@ -143,7 +146,27 @@ header{
             position: absolute;   
         }
         .current{
-            height: 250px;        }
+            display: flex;
+            flex-direction: column;
+            height: 160px;
+            .demo-editor{
+                height: 50%;
+                line-height:1.2;
+                padding:0 12px;
+            }
+            button{
+                font-family: "Microsoft YaHei",Tahoma,Verdana,Arial,sans-serif;
+                width:61px;
+                margin-right: 12px;
+                align-self:flex-end;
+                background-color: white;
+                border:1px solid #acccef;
+                font-size: 14px;
+            }
+            button:hover{
+                background-color: #acccef;
+            }        
+        }
     }
     main{
         margin-left:8px;

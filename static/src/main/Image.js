@@ -1,7 +1,6 @@
 
 import React,{Component} from 'react';
 import PropTypes from 'prop-types';
-import Option from '../components/Option';
 
 export default class Image extends Component {
     constructor(props){

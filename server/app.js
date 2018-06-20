@@ -82,7 +82,7 @@ app.use(serve(path.join(__dirname,'../'),{
   autogz: true
 }));
 
-app.use(koaBody());
+app.use(koaBody({multipart:true}));
 
 app.use(session(CONFIG, app));
 

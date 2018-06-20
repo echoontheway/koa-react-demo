@@ -2,6 +2,8 @@
 koa+react搭建一个比较完整的web前后端的例子  
 1.登录&退出 (koa-session)  
 2.在线咨询 (websocket)
+    (1)文字、表情、图片发送与接收
+    (2)客户端图片放大与收起
 
 ## node
 框架：koa  

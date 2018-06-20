@@ -1,20 +1,27 @@
-const isNode = ()=>typeof window === 'undefined'
+const isNode = typeof window === 'undefined';
 
 const toString = Object.prototype.toString;
 
-const isType = (type)=>{
-    return (obj)=>toString.call(this,obj).slice(8,-1)==='type'
+const isType = type=>obj=>toString.call(obj).slice(8,-1)===type;
+
+const isString = isType('String');
+const isObject = isType('Object');
+const isArray = isType('Array');
+
+const stringifyEach = function(obj) {
+    if (isArray(obj)||isObject(obj)) {
+        let target = isObject(obj) ? {} : []
+        let keys = Object.keys(obj)
+        for (let key of keys) {
+            target[key] = stringifyEach(obj[key])
+        }
+        return target
+    }
+    return obj + ''
 }
 
-const isString = isType('string');
-const isObject = isType('object');
-
-
-
 const b64DecodeUnicode = function(str) {
-    return isNode?Buffer.from(str,'base64').toString('utf8'):decodeURIComponent(atob(str).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
+    return isNode?Buffer.from(str,'base64').toString('utf8'):decodeURIComponent(atob(str).split('').map((c)=>'%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''))
 }
 
 /**
@@ -53,6 +60,7 @@ const getcookie = function(name,source) {
 export{
     isString,
     isObject,
+    stringifyEach,
     b64DecodeUnicode,
     getcookie,
     getRandomInt

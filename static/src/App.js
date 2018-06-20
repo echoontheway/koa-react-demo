@@ -3,6 +3,7 @@ import Login from './Login';
 import Main from './main';
 import { connect } from 'react-redux';
 import {b64DecodeUnicode,getcookie} from '../../febe/utils';
+import { format } from "url";
 
 class App extends Component{
   constructor(props){
@@ -17,7 +18,11 @@ class App extends Component{
   hasLogined(){
     let sid = getcookie('sid');
     if(sid){
-      sid = JSON.parse(b64DecodeUnicode(sid))
+      try{
+        sid = JSON.parse(b64DecodeUnicode(sid))
+      }catch(e){
+        console.log(e);
+      }
       return sid&&sid._expire>Date.now()
     }
   }
@@ -54,6 +59,3 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps
 )(App)
-
-
-

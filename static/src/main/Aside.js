@@ -1,36 +1,38 @@
 import React,{Component} from 'react';
-import {getRandomInt} from '../../../febe/utils';
-import {picMap} from '../constants';
-import { EditorState } from 'draft-js';
+import {getRandomInt,stringifyEach} from '../../../febe/utils';
+import { EditorState,convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg'; 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import Image from './Image';
+import Layer from '../components/layer';
+import { format } from 'util';
 
 export default class Aside extends Component{
     constructor(props){
         super(props);
-        this.ws = this.initSocket(props.userInfo.tel);
+        this.ws = this.initSocket();
         this.state = {
             history:[],
             editorState: EditorState.createEmpty(),
+            showPicSrc:''
         }
         this.onEditorStateChange = this.onEditorStateChange.bind(this);
         this.uploadImageCallBack = this.uploadImageCallBack.bind(this);
+        this.clickSend = this.clickSend.bind(this);
     }
-    initSocket(tel){
+    initSocket(){
         const ws = new WebSocket('ws://localhost:3000/chat');
         ws.onopen = ()=>{
             if(ws.bufferedAmount == 0){
-                let message = ['hi','hello','sb??'][getRandomInt(0,3)];
-                ws.send(message);
-                this.setState(({history},props)=>({
-                    history:[...history,{msg:message,user:tel}]
-                }))
+                let msg = ['hi','hello','sb??'][getRandomInt(0,3)];
+                this.send({msg});
             }
         };
         ws.onmessage = (event)=> {
+            const type = event.data instanceof Blob?'img':'txt';
+            const msg = type==='img'?URL.createObjectURL(event.data):event.data;
             this.setState(({history},props)=>({
-                history:[...history,{msg:event.data,user:'000'}]
+                history:[...history,{msg,user:'000',type}]
             }))
         };
         ws.onclose = function(evt) {
@@ -38,24 +40,31 @@ export default class Aside extends Component{
         };   
         return ws;  
     }
+    send({msg,type}){
+        const user = this.props.userInfo.tel;
+        this.ws.send(msg);
+        msg = type==='img'?URL.createObjectURL(msg):msg;
+        this.setState(({history},props)=>({
+            history:[...history,{msg,type,user}],
+            editorState:EditorState.createEmpty(),
+        }))
+    }
+    clickSend(){
+        this.send({msg:convertToRaw(this.state.editorState.getCurrentContent()).blocks.map(({text})=>text).join('')})
+    }
     onEditorStateChange(editorState){
-        this.setState((prevState,props)=>({editorState}));
+        this.setState({editorState});
     }
     uploadImageCallBack(file){
         return new Promise((resolve,reject)=>{
-            const data = new FormData();
-            data.append('image', file);
-            this.ws.send(data);
-            this.ws.addEventListener('error',function(event){
-                reject(event.data);
-            })
-            this.ws.addEventListener('onmessage',function(event){
-                resolve(event.data);
-            })
+            this.send({msg:file,type:'img'});
         })
     }
+    amplifyPic(src){
+        this.setState({showPicSrc:src})
+    }
     render(){
-        const {history,editorState} = this.state;
+        const {history,editorState,showPicSrc} = this.state;
         return(
             <aside>
                 <section className="head">
@@ -65,13 +74,14 @@ export default class Aside extends Component{
                 </section>
                 <section className="history">
                     {
-                        history.map(({msg,user},idx)=>(
+                        history.map(({msg,user,type},idx)=>(
                             <div key={idx} className={user==='000'?'left_msg':'right_msg'}>
-                                <img className="avatar" src={picMap[user]} />
-                                <span className="msg">{msg}</span>
+                                <img className="avatar" src={`//localhost:3000/static/images/${user}.png`} />
+                                {type=='img'?<img className="msg" width='20%' height='20%' src={msg} onClick={this.amplifyPic.bind(this,msg)}/>:<span className="msg">{msg}</span>}
                             </div>
                         ))
                     }
+                    {showPicSrc&&<Layer><img src={showPicSrc} /></Layer>}
                 </section>
                 <section className="current">
                     <Editor
@@ -79,12 +89,13 @@ export default class Aside extends Component{
                         wrapperClassName="demo-wrapper"
                         editorClassName="demo-editor"
                         onEditorStateChange={this.onEditorStateChange}
+                        editorRef={(ref)=>this.editorRef=ref}
                         toolbar={{
                             options: ['emoji', 'image'],
                             image: {component:Image,uploadCallback:this.uploadImageCallBack},                            
                         }}
                     />
-                    <button>发送</button>
+                    <button onClick={this.clickSend}>发送(S)</button>
                 </section>
             </aside>
         )

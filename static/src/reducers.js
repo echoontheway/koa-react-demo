@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux'
-import * as types from './actionTypes'
+import { combineReducers } from 'redux';
+import * as types from './actionTypes';
 
 function loginOrOut(state = {}, action) {
   switch (action.type) {
